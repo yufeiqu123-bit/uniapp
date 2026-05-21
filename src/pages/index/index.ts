@@ -358,6 +358,73 @@ const menuGroupsData: MenuGroup[] = [
       },
     ],
   },
+  {
+    key: 'labor',
+    name: '劳务管理',
+    menus: [
+      {
+        key: 'demand',
+        name: '劳务需求',
+        icon: 'user-circle',
+        url: '/pages-labor/demand/index',
+        iconColor: '#1890ff',
+        permission: 'labor:demand:query',
+      },
+      {
+        key: 'match',
+        name: '需求调配',
+        icon: 'refresh',
+        url: '/pages-labor/match/index',
+        iconColor: '#1890ff',
+      },
+    ],
+  },
+  {
+    key: 'laborBase',
+    name: '劳务基础',
+    menus: [
+      {
+        key: 'laborEnterpriseCooperation',
+        name: '劳务企业合作信息管理',
+        icon: 'shop',
+        url: '/pages-labor/enterprise-cooperation/index',
+        iconColor: '#1890ff',
+        permission: 'labor:enterprise-cooperation:query',
+      },
+      {
+        key: 'laborEnterpriseRegister',
+        name: '劳务企业注册信息',
+        icon: 'secured',
+        url: '/pages-labor/enterprise-register/index',
+        iconColor: '#13c2c2',
+        permission: 'labor:lwqyzcxx:query',
+      },
+      {
+        key: 'laborTeamInfo',
+        name: '劳务班组管理',
+        icon: 'usergroup',
+        url: '/pages-labor/team-info/index',
+        iconColor: '#52c41a',
+        permission: 'labor:team-info:query',
+      },
+      {
+        key: 'laborInfo',
+        name: '劳务人员管理',
+        icon: 'user',
+        url: '/pages-labor/labor-info/index',
+        iconColor: '#fa8c16',
+        permission: 'labor:info:query',
+      },
+      {
+        key: 'laborRegisterApply',
+        name: '注册信息审核',
+        icon: 'check-circle',
+        url: '/pages-labor/register-apply/index',
+        iconColor: '#f5222d',
+        permission: 'labor:register-apply:query',
+      },
+    ],
+  },
 ]
 
 /**
