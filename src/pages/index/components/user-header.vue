@@ -1,19 +1,35 @@
 <template>
-  <view class="mx-20rpx mt-20rpx overflow-hidden rounded-16rpx bg-white">
-    <view class="flex items-center p-24rpx">
-      <view class="avatar-wrapper mr-20rpx h-100rpx w-100rpx overflow-hidden rounded-full">
-        <image
-          :src="userInfo.avatar"
-          mode="aspectFill"
-          class="h-full w-full"
-        />
-      </view>
-      <view class="flex-1">
-        <view class="text-32rpx text-#333 font-500">
-          {{ greeting }}，{{ userInfo.nickname || userInfo.username }}
+  <view class="business-header mx-20rpx mt-20rpx overflow-hidden rounded-24rpx">
+    <view class="p-28rpx">
+      <view class="flex items-start justify-between">
+        <view class="min-w-0 flex-1">
+          <view class="platform-title">
+            劳务管理平台
+          </view>
+          <view class="mt-12rpx text-28rpx text-white">
+            {{ greeting }}，{{ displayName }}
+          </view>
+          <view class="platform-subtitle mt-8rpx text-24rpx">
+            高效管理劳务人员、班组与企业信息
+          </view>
         </view>
-        <view class="mt-8rpx text-26rpx text-#999">
-          {{ description }}
+        <view class="platform-icon ml-20rpx h-76rpx w-76rpx flex items-center justify-center rounded-20rpx">
+          <wd-icon name="usergroup" size="42rpx" color="#ffffff" />
+        </view>
+      </view>
+
+      <view class="overview-list mt-28rpx flex">
+        <view
+          v-for="item in overviewItems"
+          :key="item.label"
+          class="overview-card flex-1 rounded-18rpx px-16rpx py-18rpx"
+        >
+          <view class="text-36rpx text-white font-600">
+            {{ item.value }}
+          </view>
+          <view class="overview-label mt-6rpx text-22rpx">
+            {{ item.label }}
+          </view>
         </view>
       </view>
     </view>
@@ -30,6 +46,14 @@ defineOptions({
 
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
+
+const displayName = computed(() => userInfo.value.nickname || userInfo.value.username || '管理员')
+
+const overviewItems = [
+  { label: '待审核', value: 5 },
+  { label: '劳务人员', value: 128 },
+  { label: '合作企业', value: 12 },
+]
 
 /** 根据时间获取问候语 */
 const greeting = computed(() => {
@@ -50,27 +74,36 @@ const greeting = computed(() => {
     return '晚上好'
   }
 })
-
-/** 描述语 */
-const description = computed(() => {
-  const hour = new Date().getHours()
-  if (hour < 9) {
-    return '开始新的一天，加油！'
-  } else if (hour < 12) {
-    return '工作顺利，效率满满！'
-  } else if (hour < 14) {
-    return '午休时间，记得休息~'
-  } else if (hour < 18) {
-    return '继续努力，收获满满！'
-  } else {
-    return '辛苦了，注意休息！'
-  }
-})
 </script>
 
 <style lang="scss" scoped>
-.avatar-wrapper {
-  border: 3rpx solid #f0f0f0;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.06);
+.business-header {
+  background: linear-gradient(135deg, #018d71 0%, #12b088 58%, #45c7a1 100%);
+  box-shadow: 0 12rpx 28rpx rgba(1, 141, 113, 0.22);
+}
+
+.platform-title {
+  color: #ffffff;
+  font-size: 38rpx;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.platform-icon {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.platform-subtitle,
+.overview-label {
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.overview-card {
+  background: rgba(255, 255, 255, 0.16);
+  border: 1rpx solid rgba(255, 255, 255, 0.2);
+}
+
+.overview-card + .overview-card {
+  margin-left: 14rpx;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="menu-grid">
     <wd-grid :column="4" clickable :border="false">
       <wd-grid-item
         v-for="menu in menus"
@@ -9,10 +9,10 @@
       >
         <template #icon>
           <view
-            class="h-80rpx w-80rpx flex items-center justify-center rounded-16rpx"
+            class="menu-icon h-76rpx w-76rpx flex items-center justify-center rounded-20rpx"
             :style="getIconStyle(menu)"
           >
-            <wd-icon :name="menu.icon" size="50rpx" :color="menu.iconColor" />
+            <wd-icon :name="menu.icon" size="42rpx" :color="menu.iconColor" />
           </view>
         </template>
       </wd-grid-item>
@@ -73,17 +73,36 @@ function handleClick(menu: MenuItem) {
 /** 获取图标样式 */
 function getIconStyle(menu: MenuItem) {
   return {
-    backgroundColor: menu.iconColor ? `${menu.iconColor}20` : '#f5f5f5',
+    backgroundColor: menu.iconColor ? `${menu.iconColor}16` : '#f5f5f5',
     color: menu.iconColor || '#666',
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.menu-grid {
+  padding: 10rpx 6rpx 14rpx;
+}
+
+.menu-icon {
+  box-shadow: inset 0 0 0 1rpx rgba(255, 255, 255, 0.7);
+}
+
+:deep(.wd-grid-item__content) {
+  padding: 14rpx 4rpx 12rpx;
+}
+
 :deep(.wd-grid-item__text) {
   font-size: 24rpx;
   color: #333;
-  overflow: visible;
-  white-space: nowrap;
+  line-height: 1.25;
+  max-width: 132rpx;
+  min-height: 60rpx;
+  overflow: hidden;
+  white-space: normal !important;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 </style>
