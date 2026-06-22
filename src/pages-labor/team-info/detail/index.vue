@@ -8,8 +8,8 @@ import {
   getTeamProjectPerformanceListByTeamId,
 } from '@/api/labor/teamInfo'
 import { navigateBackPlus } from '@/utils'
-import DetailCard from '../../components/detail-card.vue'
 import SubListCard from '../../components/sub-list-card.vue'
+import { display } from '../../utils'
 
 const props = defineProps<{
   id?: number | string
@@ -95,7 +95,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <view class="yd-page-container">
+  <view class="yd-page-container min-h-screen bg-[#f5f6f8]">
     <wd-navbar
       title="班组详情"
       left-arrow
@@ -108,45 +108,96 @@ onMounted(() => {
     <view v-if="loading && !detail" class="flex justify-center py-100rpx">
       <wd-loading />
     </view>
-    <view v-else-if="detail" class="p-24rpx">
-      <DetailCard
-        title="基本信息"
-        :items="[
-          { label: '班组名称', value: detail.teamName },
-          { label: '负责人', value: detail.leaderName },
-          { label: '联系电话', value: detail.leaderPhone },
-        ]"
-      />
-      <DetailCard
-        title="施工能力"
-        :items="[
-          { label: '从事行业', value: detail.engagedIndustry },
-          { label: '施工类别', value: detail.constructionType },
-          { label: '最大组织规模', value: detail.largestScale },
-          { label: '自有施工机具', value: detail.constructionMachinery },
-        ]"
-      />
-      <DetailCard
-        title="项目信息"
-        :items="[
-          { label: '所在项目', value: detail.currentProject },
-        ]"
-      />
-      <DetailCard title="持证人员统计" :items="certifiedStatsItems" />
-      <SubListCard
-        title="施工记录"
-        :list="constructionRecords"
-        :title-keys="constructionRecordTitleKeys"
-        :fields="constructionRecordFields"
-        item-prefix="施工记录"
-      />
-      <SubListCard
-        title="近三年主要业绩"
-        :list="projectPerformances"
-        :title-keys="performanceTitleKeys"
-        :fields="performanceFields"
-        item-prefix="业绩"
-      />
+    <view v-else-if="detail" class="detail-page safe-area-inset-bottom px-24rpx pb-40rpx pt-24rpx">
+      <view class="labor-card mb-24rpx overflow-hidden rounded-20rpx bg-white">
+        <view class="p-24rpx">
+          <view class="flex items-start justify-between gap-20rpx">
+            <view class="min-w-0 flex-1 truncate text-36rpx text-[#1f2a37] font-semibold leading-46rpx">
+              {{ display(detail.teamName) }}
+            </view>
+            <view class="max-w-220rpx shrink-0 truncate rounded-full bg-[#e8f6f2] px-18rpx py-6rpx text-24rpx text-[#018d71] font-medium leading-34rpx">
+              {{ display(detail.constructionType) }}
+            </view>
+          </view>
+
+          <view class="mt-8rpx text-26rpx text-[#7b8794] leading-38rpx">
+            负责人：{{ display(detail.leaderName) }}
+          </view>
+          <view class="mt-2rpx break-all text-26rpx text-[#7b8794] leading-38rpx">
+            电话：{{ display(detail.leaderPhone) }}
+          </view>
+
+          <view class="mt-22rpx rounded-16rpx bg-[#f7f9f8] px-22rpx py-20rpx">
+            <view class="mb-16rpx flex items-start text-28rpx leading-40rpx">
+              <text class="w-140rpx shrink-0 text-[#8a949e]">
+                当前项目
+              </text>
+              <text class="min-w-0 flex-1 text-[#26323d]">
+                {{ display(detail.currentProject) }}
+              </text>
+            </view>
+            <view class="flex items-start text-28rpx leading-40rpx">
+              <text class="w-140rpx shrink-0 text-[#8a949e]">
+                最大规模
+              </text>
+              <text class="min-w-0 flex-1 text-[#26323d]">
+                {{ display(detail.largestScale) }}
+              </text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="detail-card mb-24rpx overflow-hidden rounded-20rpx bg-white">
+        <view class="detail-card-title">
+          <text>施工能力</text>
+        </view>
+        <view class="px-24rpx">
+          <view class="detail-row">
+            <text class="detail-label">从事行业</text>
+            <text class="detail-value">{{ display(detail.engagedIndustry) }}</text>
+          </view>
+          <view class="detail-row border-0">
+            <text class="detail-label">自有施工机具</text>
+            <text class="detail-value">{{ display(detail.constructionMachinery) }}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="detail-card mb-24rpx overflow-hidden rounded-20rpx bg-white">
+        <view class="detail-card-title">
+          <text>持证人员统计</text>
+        </view>
+        <view class="px-24rpx">
+          <view
+            v-for="item in certifiedStatsItems"
+            :key="item.label"
+            class="detail-row"
+          >
+            <text class="detail-label">{{ item.label }}</text>
+            <text class="detail-value">{{ display(item.value) }}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="sub-list-card">
+        <SubListCard
+          title="施工记录"
+          :list="constructionRecords"
+          :title-keys="constructionRecordTitleKeys"
+          :fields="constructionRecordFields"
+          item-prefix="施工记录"
+        />
+      </view>
+      <view class="sub-list-card">
+        <SubListCard
+          title="近三年主要业绩"
+          :list="projectPerformances"
+          :title-keys="performanceTitleKeys"
+          :fields="performanceFields"
+          item-prefix="业绩"
+        />
+      </view>
     </view>
     <view v-else class="py-100rpx text-center">
       <wd-status-tip image="content" tip="暂无详情数据" />
@@ -155,4 +206,98 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+.labor-card,
+.detail-card {
+  box-shadow: 0 10rpx 30rpx rgba(31, 42, 55, 0.08);
+}
+
+.detail-card-title {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 24rpx 8rpx;
+  color: #1f2a37;
+  font-size: 32rpx;
+  font-weight: 600;
+  line-height: 44rpx;
+
+  &::before {
+    width: 6rpx;
+    height: 28rpx;
+    margin-right: 12rpx;
+    border-radius: 999rpx;
+    background: #018d71;
+    content: '';
+  }
+}
+
+.detail-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #eef1f4;
+  font-size: 28rpx;
+  line-height: 40rpx;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.detail-label {
+  width: 180rpx;
+  flex-shrink: 0;
+  color: #8a949e;
+}
+
+.detail-value {
+  min-width: 0;
+  flex: 1;
+  color: #26323d;
+  overflow-wrap: anywhere;
+  word-break: break-all;
+}
+
+.sub-list-card {
+  :deep(> view) {
+    border-radius: 20rpx;
+    box-shadow: 0 10rpx 30rpx rgba(31, 42, 55, 0.08);
+  }
+
+  :deep(> view > view:first-child) {
+    display: flex;
+    align-items: center;
+    padding: 24rpx 24rpx 8rpx;
+    border-bottom: 0;
+  }
+
+  :deep(> view > view:first-child::before) {
+    width: 6rpx;
+    height: 28rpx;
+    margin-right: 12rpx;
+    border-radius: 999rpx;
+    background: #018d71;
+    content: '';
+  }
+
+  :deep(> view > view:first-child text) {
+    color: #1f2a37;
+    font-size: 32rpx;
+    line-height: 44rpx;
+  }
+
+  :deep(> view > view:nth-child(2)) {
+    padding: 20rpx 24rpx 24rpx;
+  }
+
+  :deep(> view > view:nth-child(2) > view) {
+    border-radius: 16rpx;
+    background: #f7f9f8;
+  }
+
+  :deep(> view > view:nth-child(2) > view > view text:last-child) {
+    text-align: left;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+  }
+}
 </style>
