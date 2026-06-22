@@ -137,7 +137,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <view class="yd-page-container">
+  <view class="yd-page-container min-h-screen bg-[#f5f6f8]">
     <wd-navbar
       title="注册信息审核"
       left-arrow
@@ -154,20 +154,20 @@ onMounted(() => {
       @reset="handleReset"
     />
 
-    <view class="p-24rpx">
+    <view class="safe-area-inset-bottom px-24rpx pb-40rpx pt-24rpx">
       <view
         v-for="item in list"
         :key="item.id"
-        class="mb-24rpx overflow-hidden rounded-12rpx bg-white shadow-sm"
+        class="labor-card mb-24rpx overflow-hidden rounded-20rpx bg-white"
         @click="handleDetail(item)"
       >
         <view class="p-24rpx">
-          <view class="mb-16rpx flex items-start justify-between gap-16rpx">
+          <view class="flex items-start justify-between gap-20rpx">
             <view class="min-w-0 flex-1">
-              <view class="text-32rpx text-[#333] font-semibold">
+              <view class="truncate text-34rpx text-[#1f2a37] font-semibold leading-44rpx">
                 {{ display(item.username) }}
               </view>
-              <view class="mt-4rpx text-24rpx text-[#999]">
+              <view class="mt-8rpx truncate text-26rpx text-[#7b8794] leading-38rpx">
                 {{ display(item.nickname) }}
               </view>
             </view>
@@ -175,21 +175,38 @@ onMounted(() => {
               {{ getStatusText(item.status) }}
             </wd-tag>
           </view>
-          <view class="mb-12rpx flex items-center text-28rpx text-[#666]">
-            <text class="mr-8rpx text-[#999]">
-              注册类型：
-            </text>
-            <text class="mr-24rpx">{{ getRegisterTypeText(item.registerType) }}</text>
-            <text class="mr-8rpx text-[#999]">
-              企业名称：
-            </text>
-            <text>{{ display(item.enterpriseName) }}</text>
+
+          <view class="mt-22rpx rounded-16rpx bg-[#f7f9f8] px-22rpx py-20rpx">
+            <view class="mb-16rpx flex items-start text-28rpx leading-40rpx">
+              <text class="w-140rpx shrink-0 text-[#8a949e]">
+                注册类型
+              </text>
+              <text class="min-w-0 flex-1 text-[#26323d]">
+                {{ getRegisterTypeText(item.registerType) }}
+              </text>
+            </view>
+            <view class="mb-16rpx flex items-start text-28rpx leading-40rpx">
+              <text class="w-140rpx shrink-0 text-[#8a949e]">
+                企业名称
+              </text>
+              <text class="min-w-0 flex-1 text-[#26323d]">
+                {{ display(item.enterpriseName) }}
+              </text>
+            </view>
+            <view class="flex items-start text-28rpx leading-40rpx">
+              <text class="w-140rpx shrink-0 text-[#8a949e]">
+                申请时间
+              </text>
+              <text class="min-w-0 flex-1 text-[#26323d]">
+                {{ formatDateTimeMinute(item.createTime) }}
+              </text>
+            </view>
           </view>
-          <view class="flex items-center text-28rpx text-[#666]">
-            <text class="mr-8rpx text-[#999]">
-              申请时间：
+
+          <view class="mt-24rpx flex justify-end border-t border-[#eef1f4] pt-18rpx">
+            <text class="text-28rpx text-[#018d71] font-medium leading-40rpx">
+              查看详情 &gt;
             </text>
-            <text>{{ formatDateTimeMinute(item.createTime) }}</text>
           </view>
         </view>
       </view>
@@ -210,4 +227,7 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+.labor-card {
+  box-shadow: 0 10rpx 30rpx rgba(31, 42, 55, 0.08);
+}
 </style>

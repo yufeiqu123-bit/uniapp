@@ -2,7 +2,7 @@
   <scroll-view class="min-h-0 flex-1" scroll-y scroll-with-animation>
     <!-- 常用分组 -->
     <view class="menu-card mx-20rpx mt-20rpx overflow-hidden rounded-20rpx bg-white">
-      <view class="flex items-center justify-between px-24rpx pb-8rpx pt-22rpx">
+      <view class="section-header flex items-center justify-between px-24rpx pb-8rpx pt-22rpx">
         <view>
           <view class="flex items-center">
             <view class="section-mark mr-10rpx h-26rpx w-6rpx rounded-full" />
@@ -19,11 +19,11 @@
       <MenuGrid v-if="favoriteMenuItems.length > 0" :menus="favoriteMenuItems" />
       <view
         v-else
-        class="mx-24rpx mb-24rpx mt-14rpx flex items-center border-1rpx border-#d6e8e3 rounded-16rpx border-dashed bg-#fbfffd px-24rpx py-18rpx"
+        class="empty-favorite mx-24rpx mb-18rpx mt-10rpx flex items-center justify-center rounded-14rpx border-dashed px-20rpx py-12rpx"
         @click="handleGotoFavoriteSettings"
       >
-        <wd-icon name="add" size="32rpx" color="#018d71" />
-        <text class="pl-10rpx text-27rpx text-#6f7a77">添加我常用的</text>
+        <wd-icon name="add" size="28rpx" color="#8ba39d" />
+        <text class="pl-8rpx text-25rpx text-#8ba39d">添加我常用的</text>
       </view>
     </view>
 
@@ -34,13 +34,13 @@
       class="menu-card mx-20rpx mt-20rpx overflow-hidden rounded-20rpx bg-white"
       :class="{ 'priority-menu-card': isPriorityGroup(group.key) }"
     >
-      <view class="flex items-start justify-between px-24rpx pb-8rpx pt-22rpx">
+      <view class="section-header flex items-start justify-between px-24rpx pb-8rpx pt-22rpx">
         <view class="min-w-0 flex-1">
           <view class="flex items-center">
             <view v-if="isPriorityGroup(group.key)" class="section-mark mr-10rpx h-26rpx w-6rpx rounded-full" />
-            <text class="text-30rpx text-#222 font-600">{{ group.name }}</text>
+            <text class="section-title">{{ group.name }}</text>
           </view>
-          <view class="mt-6rpx text-22rpx text-#8a8f94">
+          <view class="section-desc mt-8rpx">
             {{ getGroupDescription(group.key) }}
           </view>
         </view>
@@ -51,11 +51,11 @@
           核心
         </view>
       </view>
-      <MenuGrid :menus="group.menus" />
+      <MenuGrid :menus="group.menus" :layout="getMenuLayout(group)" />
     </view>
 
     <!-- 底部安全区域 -->
-    <view class="h-40rpx" />
+    <view class="bottom-safe-space" />
   </scroll-view>
 </template>
 
@@ -104,6 +104,10 @@ function getGroupDescription(key: string) {
   return groupDescriptions[key] || '业务功能入口'
 }
 
+function getMenuLayout(group: MenuGroup) {
+  return group.menus.length <= 2 ? 'card' : 'grid'
+}
+
 /** 跳转到常用服务设置页面 */
 function handleGotoFavoriteSettings() {
   uni.navigateTo({
@@ -126,6 +130,23 @@ onShow(() => {
   box-shadow: 0 8rpx 22rpx rgba(15, 35, 31, 0.04);
 }
 
+.section-header {
+  min-height: 86rpx;
+}
+
+.section-title {
+  color: #222;
+  font-size: 30rpx;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.section-desc {
+  color: #8a8f94;
+  font-size: 22rpx;
+  line-height: 1.35;
+}
+
 .priority-menu-card {
   border: 1rpx solid rgba(1, 141, 113, 0.14);
   box-shadow: 0 10rpx 26rpx rgba(1, 141, 113, 0.08);
@@ -133,5 +154,15 @@ onShow(() => {
 
 .section-mark {
   background: #018d71;
+}
+
+.empty-favorite {
+  background: #fcfefd;
+  border: 1rpx dashed #e4eeeb;
+}
+
+.bottom-safe-space {
+  height: calc(132rpx + constant(safe-area-inset-bottom));
+  height: calc(132rpx + env(safe-area-inset-bottom));
 }
 </style>

@@ -2,7 +2,7 @@
   <view class="yd-page-container">
     <!-- 顶部导航栏 -->
     <wd-navbar
-      title="工作台"
+      title="劳务工作台"
       placeholder safe-area-inset-top fixed
     />
     <!-- 用户信息头部 -->

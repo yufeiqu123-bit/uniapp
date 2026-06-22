@@ -1,6 +1,30 @@
 <template>
   <view class="menu-grid">
-    <wd-grid :column="4" clickable :border="false">
+    <view v-if="isCardLayout" class="quick-card-list flex">
+      <view
+        v-for="menu in menus"
+        :key="menu.key"
+        class="quick-card flex flex-1 items-center rounded-18rpx bg-#f8fbfa px-20rpx py-22rpx"
+        @click="handleClick(menu)"
+      >
+        <view
+          class="menu-icon h-72rpx w-72rpx flex flex-shrink-0 items-center justify-center rounded-18rpx"
+          :style="getIconStyle(menu)"
+        >
+          <wd-icon :name="menu.icon" size="40rpx" :color="menu.iconColor" />
+        </view>
+        <view class="ml-16rpx min-w-0 flex-1">
+          <view class="quick-card-title">
+            {{ menu.name }}
+          </view>
+          <view class="mt-6rpx text-22rpx text-#9aa3a0">
+            快速进入
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <wd-grid v-else :column="4" clickable :border="false">
       <wd-grid-item
         v-for="menu in menus"
         :key="menu.key"
@@ -30,11 +54,16 @@ defineOptions({
   name: 'MenuGrid',
 })
 
-defineProps<{
+const props = withDefaults(defineProps<{
   menus: MenuItem[] // 菜单列表
-}>()
+  layout?: 'grid' | 'card'
+}>(), {
+  layout: 'grid',
+})
 
 const toast = useToast()
+
+const isCardLayout = computed(() => props.layout === 'card' && props.menus.length > 0 && props.menus.length <= 2)
 
 /** 处理菜单点击 */
 function handleClick(menu: MenuItem) {
@@ -82,6 +111,26 @@ function getIconStyle(menu: MenuItem) {
 <style lang="scss" scoped>
 .menu-grid {
   padding: 10rpx 6rpx 14rpx;
+}
+
+.quick-card-list {
+  padding: 4rpx 18rpx 10rpx;
+}
+
+.quick-card + .quick-card {
+  margin-left: 16rpx;
+}
+
+.quick-card {
+  border: 1rpx solid #eef4f2;
+}
+
+.quick-card-title {
+  color: #263331;
+  font-size: 28rpx;
+  font-weight: 600;
+  line-height: 1.25;
+  word-break: break-all;
 }
 
 .menu-icon {
