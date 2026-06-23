@@ -38,6 +38,7 @@
 
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
+import { getLaborHomeOverview } from '@/api/labor/home'
 import { useUserStore } from '@/store'
 
 defineOptions({
@@ -49,11 +50,35 @@ const { userInfo } = storeToRefs(userStore)
 
 const displayName = computed(() => userInfo.value.nickname || userInfo.value.username || '管理员')
 
-const overviewItems = [
-  { label: '待审核', value: 5 },
-  { label: '劳务人员', value: 128 },
-  { label: '合作企业', value: 12 },
-]
+const overview = ref({
+  pendingReviewCount: 0,
+  laborPersonCount: 0,
+  cooperationEnterpriseCount: 0,
+})
+
+const overviewItems = computed(() => [
+  { label: '待审核', value: overview.value.pendingReviewCount },
+  { label: '劳务人员', value: overview.value.laborPersonCount },
+  { label: '合作企业', value: overview.value.cooperationEnterpriseCount },
+])
+
+function normalizeCount(value: unknown) {
+  const count = Number(value)
+  return Number.isFinite(count) ? count : 0
+}
+
+async function loadOverview() {
+  try {
+    const data = await getLaborHomeOverview()
+    overview.value = {
+      pendingReviewCount: normalizeCount(data?.pendingReviewCount),
+      laborPersonCount: normalizeCount(data?.laborPersonCount),
+      cooperationEnterpriseCount: normalizeCount(data?.cooperationEnterpriseCount),
+    }
+  } catch (error) {
+    console.error('获取劳务首页统计失败', error)
+  }
+}
 
 /** 根据时间获取问候语 */
 const greeting = computed(() => {
@@ -73,6 +98,10 @@ const greeting = computed(() => {
   } else {
     return '晚上好'
   }
+})
+
+onMounted(() => {
+  loadOverview()
 })
 </script>
 

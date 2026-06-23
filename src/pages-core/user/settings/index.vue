@@ -17,7 +17,7 @@
         src="/static/logo.svg"
         mode="aspectFit"
       />
-      <text class="text-40rpx text-gray-800 font-medium">芋道移动端</text>
+      <text class="text-40rpx text-gray-800 font-medium">{{ appTitle }}</text>
     </view>
 
     <!-- 设置列表 -->
@@ -47,19 +47,13 @@
     </view>
 
     <!-- 底部协议和版权 -->
-    <view class="mt-80rpx flex flex-col items-center">
+    <!-- <view class="mt-80rpx flex flex-col items-center">
       <view class="mb-40rpx flex items-center text-26rpx">
         <text class="text-[#1890ff]" @click="handleGoAgreement">《用户协议》</text>
         <text class="text-gray-500">与</text>
         <text class="text-[#1890ff]" @click="handleGoPrivacy">《隐私协议》</text>
       </view>
-      <text class="mb-10rpx text-24rpx text-gray-400">
-        Copyright © 2026 iocoder.cn All Rights Reserved.
-      </text>
-      <text class="text-24rpx text-gray-400">
-        芋道源码
-      </text>
-    </view>
+    </view> -->
   </view>
 </template>
 
@@ -78,6 +72,7 @@ definePage({
 const toast = useToast()
 const version = ref('1.0.0') // 当前版本号
 const storageSize = ref('') // 本地缓存大小
+const appTitle = import.meta.env.VITE_APP_TITLE || '劳务管理系统'
 
 /** 返回上一页 */
 function handleBack() {

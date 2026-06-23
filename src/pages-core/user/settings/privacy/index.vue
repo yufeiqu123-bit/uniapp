@@ -20,7 +20,7 @@
         <view class="mb-32rpx">
           <text class="mb-16rpx block text-gray-800 font-bold">引言</text>
           <text class="block">
-            芋道移动端（以下简称"我们"）非常重视用户的隐私和个人信息保护。本隐私政策旨在向您说明我们如何收集、使用、存储和保护您的个人信息。请您在使用我们的服务前，仔细阅读并理解本隐私政策。
+            劳务管理系统移动端（以下简称"我们"）非常重视用户的隐私和个人信息保护。本隐私政策旨在向您说明我们如何收集、使用、存储和保护您的个人信息。请您在使用我们的服务前，仔细阅读并理解本隐私政策。
           </text>
         </view>
 
@@ -121,7 +121,7 @@
           </text>
         </view>
 
-        <view class="mb-32rpx">
+        <!-- <view class="mb-32rpx">
           <text class="mb-16rpx block text-gray-800 font-bold">八、联系我们</text>
           <text class="block">
             如果您对本隐私政策有任何疑问、意见或建议，请通过以下方式联系我们：
@@ -132,7 +132,7 @@
           <text class="mt-16rpx block">
             电话：400-999-9999
           </text>
-        </view>
+        </view> -->
 
         <view class="mt-48rpx text-center text-24rpx text-gray-400">
           <text>最后更新日期：2025 年 1 月 1 日</text>
